@@ -23,17 +23,17 @@ function enableSaveTokenButton(e) {
 }
 
 function validToken() {
-    let tokenMessage = document.getElementById("tokenMessage");
-    tokenMessage.className = "fas fa-check";
-    tokenMessage.style.display = "inline-block";
-    tokenMessage.style.color = "green";
+    let tokenStatus = document.getElementById("tokenStatus");
+    tokenStatus.className = "fas fa-check";
+    tokenStatus.style.display = "inline-block";
+    tokenStatus.style.color = "green";
 }
 
 function invalidToken() {
-    let tokenMessage = document.getElementById("tokenMessage");
-    tokenMessage.className = "fas fa-times";
-    tokenMessage.style.display = "inline-block";
-    tokenMessage.style.color = "red";
+    let tokenStatus = document.getElementById("tokenStatus");
+    tokenStatus.className = "fas fa-times";
+    tokenStatus.style.display = "inline-block";
+    tokenStatus.style.color = "red";
 }
 
 function handleMessage(message) {
