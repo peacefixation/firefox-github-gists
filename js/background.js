@@ -1,5 +1,3 @@
-// TODO REMOVE:  a889939cede5a71dea792a427de6d4ac5f1052d3
-
 let gists = [];
 
 function downloadGists() {
