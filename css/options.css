@@ -1,0 +1,61 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    margin: 8px;
+}
+
+button {
+    display: inline-block;
+    height: 26px;
+    min-width: 90px;
+    border: 1px solid #D7D7DB;
+    background-color: #F9F9FA;
+    border-radius: 2px;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+}
+
+button:active {
+    background-color: #CCCCCC;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+label {
+    display: inline-block;
+    width: 130px;
+}
+
+input {
+    width: 200px;
+    height: 26px;
+    border: 1px solid #D7D7DB;
+    border-radius: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+}
+
+#saveTokenButton {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+#tokenMessage {
+    display: inline-block;
+    margin: 0;
+    margin-left: 10px;
+}
+
+#generateToken {
+    margin-left: 135px;
+}
+
+#tokenStatus {
+    display: none;
+}
