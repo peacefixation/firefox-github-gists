@@ -73,7 +73,7 @@ function renderGist(gist) {
 
 function renderPagination(gists) {
     let fullPages = parseInt(gists.length / 10);
-    let partialPage = (gists.length % 10) > 0;
+    let partialPage = (gists.length % 10) > 0 ? 1 : 0;
     let numPages = fullPages + partialPage;
     let list = document.getElementById("pagelist");
 
