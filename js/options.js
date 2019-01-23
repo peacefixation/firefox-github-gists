@@ -2,7 +2,6 @@ browser.runtime.onMessage.addListener(handleMessage);
 document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
-    // populate the token field
     let token = localStorage["token"];
     document.getElementById("tokenField").value = token;
 
@@ -31,7 +30,6 @@ function setRequestStatus(fontAwesomeClass, color, text = "") {
 }
 
 function handleMessage(message) {
-    console.log("handleMessage: " + message.action);
     if(message.action === "checkStatus") {
         let status = localStorage["requestStatus"];
         switch(status) {
