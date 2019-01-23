@@ -1,28 +1,54 @@
 document.addEventListener('DOMContentLoaded', init, false);
+browser.runtime.onMessage.addListener(handleMessage);
 
 let bgPage = chrome.extension.getBackgroundPage();
-let gists = bgPage.getGists();
+let gists = [];
+
+function handleMessage(message) {
+    if(message.action === "checkStatus") {
+        let status = localStorage["requestStatus"];
+        renderMenu(status);
+    }
+}
 
 function init() {
-    if(localStorage["validToken"] === "true") {
-        hideElement("message");
-        showElement("searchField", "block");
-        showElement("gistlist");
-        showElement("pageListContainer");
-        renderGists(1);
-    } else {
-        hideElement("searchField");
-        hideElement("gistlist");
-        hideElement("pageListContainer");
-        showMessage();
-    }
+    let status = localStorage["requestStatus"];
+    renderMenu(status);
 
     let searchField = document.getElementById("searchField");
     searchField.onkeyup = searchGists;
     searchField.focus();
 }
 
-function showMessage() {
+function renderMenu(status) {
+    if(status === "200") {
+        gists = bgPage.getGists();
+        hideElement("message");
+        showElement("searchField", "block");
+        showElement("gistlist");
+        showElement("pageListContainer");
+        renderGists(1);
+    } else if(status === "401") {
+        hideElement("searchField");
+        hideElement("gistlist");
+        hideElement("pageListContainer");
+        showInvalidTokenMessage();
+    } else {
+        hideElement("searchField");
+        hideElement("gistlist");
+        hideElement("pageListContainer");
+        showRequestErrorMessage(status);
+    }
+}
+
+function showRequestErrorMessage(text) {
+    let message = document.getElementById("message");
+    message.style.display = "block";
+
+    message.appendChild(document.createTextNode(text));
+}
+
+function showInvalidTokenMessage() {
     let message = document.getElementById("message");
     message.style.display = "block";
 

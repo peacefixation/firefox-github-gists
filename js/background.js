@@ -13,8 +13,17 @@ function requestGists(first, after) {
     
     xhttp.onreadystatechange = function() {
         if(this.readyState == 4) {
+            
+            localStorage["requestStatus"] = this.status;
+
             if(this.status == 200) {
                 let json = JSON.parse(this.responseText);
+
+                if(json["errors"]) {
+                    localStorage["requestStatus"] = json["errors"][0]["message"];
+                    browser.runtime.sendMessage({"action": "checkStatus"});
+                    return;
+                }
 
                 let hasNextPage = json["data"]["viewer"]["gists"]["pageInfo"]["hasNextPage"];
                 let endCursor = json["data"]["viewer"]["gists"]["pageInfo"]["endCursor"];
@@ -24,20 +33,13 @@ function requestGists(first, after) {
                     gists.push(json["data"]["viewer"]["gists"]["edges"][i]);
                 }
 
-                localStorage["validToken"] = "true";
-                console.log("valid token message");
-                browser.runtime.sendMessage({"action": "validToken"});
-
                 // keep requesting gists while there are more pages
                 if(hasNextPage === true) {
                     requestGists(10, endCursor);
                 }
-            } else if(this.status == 401) {
-                localStorage["validToken"] = "false";
-                browser.runtime.sendMessage({"action": "invalidToken"});
-            } else {
-                console.log("HTTP Error: " + this.status + " " + this.statusText);
             }
+
+            browser.runtime.sendMessage({"action": "checkStatus"});
         }
     };
 

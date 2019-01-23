@@ -46,7 +46,7 @@ input {
     margin-left: 10px;
 }
 
-#tokenMessage {
+#tokenStatus {
     display: inline-block;
     margin: 0;
     margin-left: 10px;
@@ -54,8 +54,4 @@ input {
 
 #generateToken {
     margin-left: 135px;
-}
-
-#tokenStatus {
-    display: none;
 }

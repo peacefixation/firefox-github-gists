@@ -22,26 +22,29 @@ function enableSaveTokenButton(e) {
     }
 }
 
-function validToken() {
+function setRequestStatus(fontAwesomeClass, color, text = "") {
     let tokenStatus = document.getElementById("tokenStatus");
-    tokenStatus.className = "fas fa-check";
+    tokenStatus.className = fontAwesomeClass;
     tokenStatus.style.display = "inline-block";
-    tokenStatus.style.color = "green";
-}
-
-function invalidToken() {
-    let tokenStatus = document.getElementById("tokenStatus");
-    tokenStatus.className = "fas fa-times";
-    tokenStatus.style.display = "inline-block";
-    tokenStatus.style.color = "red";
+    tokenStatus.style.color = color;
+    tokenStatus.title = text;
 }
 
 function handleMessage(message) {
     console.log("handleMessage: " + message.action);
-    if(message.action === "invalidToken") {
-        invalidToken();
-    } else if(message.action === "validToken") {
-        validToken();
+    if(message.action === "checkStatus") {
+        let status = localStorage["requestStatus"];
+        switch(status) {
+            case "200":
+                setRequestStatus("fas fa-check", "green");
+                break;
+            case "401":
+                setRequestStatus("fas fa-times", "red");
+                break;
+            default:
+                setRequestStatus("fas fa-exclamation-triangle", "orange", localStorage["requestStatus"]);
+                break;
+        }
     }
 }
 
