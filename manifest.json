@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Github Gists",
-    "version": "0.2",
+    "version": "0.3",
 
     "description": "Search your Github Gists",
 
