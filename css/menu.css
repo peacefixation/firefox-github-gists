@@ -101,9 +101,12 @@ ul#pagelist li {
     font-size: 13px;
     color: #666666;
     width: 15px;
-    cursor: pointer;
 }
 
-ul#pagelist li:hover {
-    text-decoration: underline;
+ul#pagelist li a:hover {
+    font-weight: bold;
+}
+
+li.activePage {
+    font-weight: bold;
 }

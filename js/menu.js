@@ -76,7 +76,7 @@ function renderGists(pageNum) {
         });
     }
 
-    renderPagination(gists);
+    renderPagination(gists, pageNum);
 }
 
 function renderGist(gist) {
@@ -97,22 +97,34 @@ function renderGist(gist) {
     list.appendChild(listElement);
 }
 
-function renderPagination(gists) {
+function renderPagination(gists, activePage = 1) {
     let fullPages = parseInt(gists.length / 10);
     let partialPage = (gists.length % 10) > 0 ? 1 : 0;
     let numPages = fullPages + partialPage;
     let list = document.getElementById("pagelist");
 
     for(let i = 1; i <= numPages; i++) {
-        let pageNum = document.createTextNode(i);
+        let textNode = document.createTextNode(i);
         let listElement = document.createElement("li");
-        listElement.appendChild(pageNum);
-        listElement.onclick = navigateToPage;
+
+        if(i === activePage) {
+            listElement.className = "activePage";
+            listElement.appendChild(textNode);
+        } else {
+            let anchor = document.createElement("a");
+            anchor.href = "#";
+            anchor.onclick = navigateToPage;
+            anchor.appendChild(textNode);
+            listElement.appendChild(anchor);
+        }
+
         list.appendChild(listElement);
     }
 }
 
 function navigateToPage(e) {
+    e.preventDefault();
+
     let pageNum = Number(e.target.innerText);
     clearGists();
     renderGists(pageNum);
