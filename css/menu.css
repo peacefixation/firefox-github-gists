@@ -1,6 +1,10 @@
 body {
+    width: 300px;
+    min-height: 25px;
+    background: #EEEEEE;
     padding: 10px;
-    width: 320px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #666666;
 }
 
 a {
@@ -12,37 +16,26 @@ a:hover {
     text-decoration: underline;
 }
 
-#header:after {
-    display: block;
-    content: "";
-    clear: both;
-}
-
-#icon {
-    float: left;
-    color: #666666;
-    font-weight: 900;
-    font-size: 17px;
-    line-height: 17px;
-    margin-top: 3px;
+#header {
+    width: 280px;
+    background-color: #666;
 }
 
 #searchField {
-    float: left;
-    width: 250px;
+    border: none;
     padding: 5px;
-    font-family: Helvetica, Arial, sans-serif;
     font-size: 13px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 1px solid #999999;
-    color: #666666;
-    margin-left: 5px;
+    color: #666;
+    width: 103%;
 }
 
 #searchField::placeholder {
     color: #999999;
+}
+
+#searchField::selection {
+    color:#999999;
+    background-color: #666666;
 }
 
 #message {
@@ -50,63 +43,23 @@ a:hover {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 13px;
     color: red;
-    margin-top: 5px;
-    margin-left: 10px;
 }
 
-ul#gistlist {
-    width: 280px;
-    margin-left: 15px;
+ul {
     padding: 0;
-    list-style: none;
+    padding-left: 15px;
+    list-style: square;
+    height: 250px;
+    overflow-y: auto;
 }
-
-ul#gistlist li {
-    position: relative;
-    font-family: Helvetica, Arial, sans-serif;
+  
+ul li {
+    list-style-position:inside;
+    margin-left: -15px;
+    padding: 3px;
+    padding-right: 5px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis; 
     font-size: 13px;
-    margin-bottom: 8px;
-    padding-left: 5px;
-}
-
-ul#gistlist li:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f15c";
-    color: #666666;
-    position: absolute;
-    left: -13px;
-    top: 0px;
-    font-weight: 900;
-    font-size: 13px;
-}
-
-#pageListContainer {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 5px;
-    height: 15px;
-}
-
-ul#pagelist {
-    list-style: none;
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    margin: auto;
-}
-
-ul#pagelist li {
-    float: left;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    color: #666666;
-    width: 15px;
-}
-
-ul#pagelist li a:hover {
-    font-weight: bold;
-}
-
-li.activePage {
-    font-weight: bold;
 }

@@ -26,17 +26,14 @@ function renderMenu(status) {
         hideElement("message");
         showElement("searchField", "block");
         showElement("gistlist");
-        showElement("pageListContainer");
-        renderGists(1);
+        renderGists();
     } else if(status === "401") {
         hideElement("searchField");
         hideElement("gistlist");
-        hideElement("pageListContainer");
         showInvalidTokenMessage();
     } else {
         hideElement("searchField");
         hideElement("gistlist");
-        hideElement("pageListContainer");
         showRequestErrorMessage(status);
     }
 }
@@ -66,17 +63,10 @@ function showInvalidTokenMessage() {
         browser.runtime.openOptionsPage()
     };
 }
-function renderGists(pageNum) {
-    let pageStart = ((pageNum - 1) * 10);
-    let pageEnd = Math.min(gists.length, pageNum * 10);
-
-    if(pageEnd > pageStart) {
-        gists.slice(pageStart, pageEnd).forEach(function(gist) {
-            renderGist(gist);
-        });
-    }
-
-    renderPagination(gists, pageNum);
+function renderGists() {
+    gists.forEach(function(gist) {
+        renderGist(gist);
+    });
 }
 
 function renderGist(gist) {
@@ -91,48 +81,15 @@ function renderGist(gist) {
     anchor.appendChild(textNode);
 
     let listElement = document.createElement("li");
+    listElement.setAttribute("title", description);
     listElement.appendChild(anchor);
 
     let list = document.getElementById("gistlist");
     list.appendChild(listElement);
 }
 
-function renderPagination(gists, activePage = 1) {
-    let fullPages = parseInt(gists.length / 10);
-    let partialPage = (gists.length % 10) > 0 ? 1 : 0;
-    let numPages = fullPages + partialPage;
-    let list = document.getElementById("pagelist");
-
-    for(let i = 1; i <= numPages; i++) {
-        let textNode = document.createTextNode(i);
-        let listElement = document.createElement("li");
-
-        if(i === activePage) {
-            listElement.className = "activePage";
-            listElement.appendChild(textNode);
-        } else {
-            let anchor = document.createElement("a");
-            anchor.href = "#";
-            anchor.onclick = navigateToPage;
-            anchor.appendChild(textNode);
-            listElement.appendChild(anchor);
-        }
-
-        list.appendChild(listElement);
-    }
-}
-
-function navigateToPage(e) {
-    e.preventDefault();
-
-    let pageNum = Number(e.target.innerText);
-    clearGists();
-    renderGists(pageNum);
-}
-
 function clearGists() {
     removeChildren("gistlist");
-    removeChildren("pagelist");
 }
 
 function searchGists(e) {
@@ -151,5 +108,5 @@ function searchGists(e) {
     }
 
     clearGists();
-    renderGists(1);
+    renderGists();
 }
