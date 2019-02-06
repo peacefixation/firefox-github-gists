@@ -27,7 +27,7 @@ function renderMenu(status) {
         showElement("searchField", "block");
         showElement("gistlist");
         renderGists();
-    } else if(status === "401") {
+    } else if(status === "401" || status === undefined) {
         hideElement("searchField");
         hideElement("gistlist");
         showInvalidTokenMessage();
