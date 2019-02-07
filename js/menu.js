@@ -21,6 +21,8 @@ function init() {
 }
 
 function renderMenu(status) {
+    clearGists();
+
     if(status === "200") {
         gists = bgPage.getGists();
         hideElement("message");

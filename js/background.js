@@ -1,11 +1,16 @@
 let gists = [];
 
+let requestNum = 0;
+let maxRequests = 10;
+
 function downloadGists() {
     gists = [];
     if(localStorage["token"] === undefined) {
         return;
     }
-    requestGists(10, null);
+
+    requestNum = 0;
+    requestGists(100, null);
 }
 
 function requestGists(first, after) {
@@ -34,8 +39,9 @@ function requestGists(first, after) {
                 }
 
                 // keep requesting gists while there are more pages
-                if(hasNextPage === true) {
-                    requestGists(10, endCursor);
+                if(hasNextPage === true && requestNum < maxRequests) {
+                    requestNum++;
+                    requestGists(100, endCursor);
                 }
             }
 
@@ -47,10 +53,10 @@ function requestGists(first, after) {
     xhttp.setRequestHeader("Authorization", "Bearer " + localStorage["token"]);
     xhttp.setRequestHeader("Content-Type", "application/json");
     
-    let query = "query ($after: String) { viewer { gists(first:100, after:$after, privacy:ALL) { edges { node { id description name pushedAt owner { resourcePath } } } pageInfo { endCursor hasNextPage } } } }"
+    let query = "query ($first: Int, $after: String) { viewer { gists(first:$first, after:$after, privacy:ALL) { edges { node { id description name pushedAt owner { resourcePath } } } pageInfo { endCursor hasNextPage } } } }"
     let request = JSON.stringify({
         query: query,
-        variables: { after: after }
+        variables: { first: first, after: after }
     });
 
     xhttp.send(request);
