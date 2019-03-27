@@ -102,13 +102,46 @@ function searchGists(e) {
     gists = [];
 
     for(let i = 0; i < allGists.length; i++) {
-        let description = allGists[i]["node"]["description"].toLowerCase();
+        let description = allGists[i]["node"]["description"];
 
-        if(description.includes(searchTerm)) {
+        if(includes(description, searchTerm)) {
             gists.push(allGists[i]);
+            continue;
+        }
+
+        let files = allGists[i]["node"]["files"];
+        for(let j = 0; j < files.length; j++) {
+            let language = files[j]["language"];
+            if(language !== null && language !== undefined) {
+                let name = language["name"]
+                if(includes(name, searchTerm)) {
+                    gists.push(allGists[i]);
+                    break;
+                }
+            }
+
+            let filename = files[j]["name"];
+            if(includes(filename, searchTerm)) {
+                gists.push(allGists[i]);
+                break;
+            }
+
+            let text = files[j]["text"];
+            if(includes(text, searchTerm)) {
+                gists.push(allGists[i]);
+                break;
+            }
         }
     }
 
     clearGists();
     renderGists();
+}
+
+function includes(text, searchTerm) {
+    if(text === null || text === undefined || searchTerm == null || searchTerm === undefined) {
+        return false;
+    }
+
+    return text.toLowerCase().includes(searchTerm.toLowerCase());
 }

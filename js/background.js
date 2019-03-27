@@ -53,7 +53,7 @@ function requestGists(first, after) {
     xhttp.setRequestHeader("Authorization", "Bearer " + localStorage["token"]);
     xhttp.setRequestHeader("Content-Type", "application/json");
     
-    let query = "query ($first: Int, $after: String) { viewer { gists(first:$first, after:$after, privacy:ALL) { edges { node { id description name pushedAt owner { resourcePath } } } pageInfo { endCursor hasNextPage } } } }"
+    let query = "query ($first: Int, $after: String) { viewer { gists(first:$first, after:$after, privacy:ALL) { edges { node { id description name pushedAt files { language { name } name text } owner { resourcePath } } } pageInfo { endCursor hasNextPage } } } }"
     let request = JSON.stringify({
         query: query,
         variables: { first: first, after: after }
