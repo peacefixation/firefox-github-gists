@@ -18,6 +18,16 @@ function init() {
     let searchField = document.getElementById("searchField");
     searchField.onkeyup = searchGists;
     searchField.focus();
+
+    let newGistButton = document.getElementById("newGistButton");
+    newGistButton.onclick = function(){
+        createTab("https://gist.github.com/");
+    };
+
+    let refreshButton = document.getElementById("refreshButton");
+    refreshButton.onclick = function() {
+        bgPage.downloadGists();
+    };
 }
 
 function renderMenu(status) {
@@ -28,14 +38,20 @@ function renderMenu(status) {
         hideElement("message");
         showElement("searchField", "block");
         showElement("gistlist");
+        showElement("newGistButton");
+        showElement("refreshButton");
         renderGists();
     } else if(status === "401" || status === undefined) {
         hideElement("searchField");
         hideElement("gistlist");
+        hideElement("newGistButton");
+        hideElement("refreshButton");
         showInvalidTokenMessage();
     } else {
         hideElement("searchField");
         hideElement("gistlist");
+        hideElement("newGistButton");
+        hideElement("refreshButton");
         showRequestErrorMessage(status);
     }
 }
@@ -80,6 +96,10 @@ function renderGist(gist) {
 
     let anchor = document.createElement("a");
     anchor.href = "https://gist.github.com" + resourcePath + "/" + gistName;
+    anchor.onclick = function(e){
+        e.preventDefault();
+        createTab(anchor.href);
+    };
     anchor.appendChild(textNode);
 
     let listElement = document.createElement("li");
@@ -144,4 +164,16 @@ function includes(text, searchTerm) {
     }
 
     return text.toLowerCase().includes(searchTerm.toLowerCase());
+}
+
+createTab = function(url) {
+    var creating = browser.tabs.create({
+        url: url
+    });
+
+    creating.then(function(){
+        window.close(); // close the popup menu after opening the tab
+    }, function(error){
+        console.log("Error: " + error);
+    });
 }
